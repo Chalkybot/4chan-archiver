@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+				font-family: Arial;
+			}
+
+			#container {
+				display: flex;
+				flex-flow: column nowrap;
+				gap: 5px;
+				padding: 5px;
+			}
+
+			.post {
+				padding: 10px;
+				display: flex;
+				flex-flow: column nowrap;
+				gap: 10px;
+				border-radius: 3px;
+			}
+
+			.post-meta {
+				font-weight: bold;
+			}
+
+			.post-image img {
+				font-weight: bold;
+				color: #C42;
+				max-width: 200px;
+			}
+
+			.green-link {
+				color: #1B2;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"><input type="file" id="file" /></div>
+		<script>
+			const DOM = {
+				createElement: function({type, id, classes, children, handlers, extraAttrs}) {
+					const elem = document.createElement(type);
+					if (id) elem.id = id;
+					if (classes) elem.classList.add(...classes);
+					(children || []).forEach(child => {
+						if (typeof child == "string") {
+							elem.innerHTML += child;
+						} else if (typeof child == "object") {
+							elem.appendChild(child);
+						}
+					});
+
+					if (handlers) Object.entries(handlers).forEach(handler => elem.addEventListener(handler[0], () => handler[1](elem)));
+					if (extraAttrs) Object.entries(extraAttrs).forEach(attr => elem.setAttribute(attr[0], attr[1]));
+
+					return elem;
+				}
+			};
+
+			const is_valid_image_path = path => {
+				return !["Failure", "N/A", null, undefined].includes(path);
+			};
+
+			document.getElementById("file").addEventListener("change", function() {
+				const reader = new FileReader();
+				reader.onload = function() {
+					const data = JSON.parse(this.result);
+					document.getElementById("container").replaceChildren(...data.posts.map((post, index) => DOM.createElement({
+						type: "div",
+						id: `post-${post.id}`,
+						classes: ["post"],
+						extraAttrs: {
+							style: `background-color: hsl(${(index * 10) % 360},30%,80%)`
+						},
+						children: [
+                        DOM.createElement({
+								type: "div",
+								classes: ["post-meta"],
+								children: [`${post.time} / ${post.id}`]
+							}),                           	
+                        ...is_valid_image_path(post.attachment)? [
+                                DOM.createElement({
+                                    type: "a",  // Wrap image in anchor element
+                                    classes: ["post-image"],
+                                    extraAttrs: {
+                                        href: post.attachment,
+                                        target: "_blank"  // Open link in a new tab
+                                    },
+                                    children: [
+                                        DOM.createElement({
+                                            type: "img",
+                                            extraAttrs: {
+                                                src: post.attachment,
+                                                alt: "Could not display image."
+                                            }
+                                        })
+                                    ]
+                                })
+                            ] : [],    
+
+						DOM.createElement({
+								type: "div",
+								classes: ["post-text"],
+								children: [post.text.replace(/>>([^\n]*)\n/, `<a class="green-link" href="#post-$1">&gt;&gt;$1</a>\n`).replace("\n", "<br>")]
+							})
+
+						]
+					})));
+				}
+				reader.readAsText(this.files[0]);
+			}, false);
+		</script>
+	</body>
+</html>
