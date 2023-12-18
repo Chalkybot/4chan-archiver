@@ -1,30 +1,4 @@
 #!/bin/python
-
-"""
-<-- TODO -->
-
-Dump every post contents to a huge JSON that's also saved.
-^ Include Date and time of saving.
-migrate the try for loops inside the download functions.
-set a "retry" count, default = 3
-^ add retry function to requests?
-
-proper reporting on if a download failed, do not set path to "failure".
-One folder per post
-Before downloading image, check if an image with the same filename exists. If it does, check if it's readable.
---overwrite mode?
-Logging options ?
-Fix up  __init__ lol
-Parse OP
-Don't download images version.
-Downloading thumbnails optional?
-Multithreading downloads?
-Image metainformation -> Resolution, Size, aspect ratio (key)
-Better error handling? Proper printing? (Coloured)
-Tagging every post with keywords? => quotes X, quoted by Y etc.
-Attempt to download each image three times, then error out.
-Stats when finished (How long it took, etc) How many posts contained images ?
-"""
 from PIL import Image
 import json
 import requests

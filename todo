@@ -1,0 +1,12 @@
+^ Include Date and time of saving.
+
+One folder per thread
+Before downloading image, check if an image with the same filename exists. If it does, check if it's readable.
+--overwrite mode?
+Logging options ?
+Don't download images version.
+Multithreading downloads?
+Better error handling? Proper printing? 
+Tagging every post with keywords? => quotes X, quoted by Y etc.
+Attempt to download each image three times, then error out.
+Stats when finished (How long it took, etc) How many posts contained images ?
