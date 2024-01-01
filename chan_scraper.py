@@ -2,29 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import warnings
-warnings.filterwarnings('ignore')
-
-# Usage:
-# Import this library
-# Do board_posts = Chan_Board(board = "pol") 
-# The Chan_Board object will have the following properties:
-# Chan_Board.pages -> The amount of pages loaded
-# chan_raw_threads -> the raw thread jsons
-# Chan_Threads ->
-# A list of threads that can be accessed like so:
-# thread = Chan_Threads[x]
-# thread.title -> The title (if any)
-# thread.length -> The amount of replies
-# thread.op -> The first post
-# thread.replies
-# Each reply / post has the following structure:
-# post.title -> title, if any
-# post.id -> id
-# post.time -> Time posted
-# post.text -> Text, if any.
-# The OP also has this:
-# post.unique_ips -> The amount of unique ips a thread has.
-
+warnings.filterwarnings('ignore') # Used to ignore bs4 warnings
 
 class Chan_Post:
     def __init__(self, post_json) -> None:
